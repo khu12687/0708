@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 공통 로직이 아니라, 요청을 처리하는 컨트롤러 관련 빈 객체만을 등록할 예정 -->
+
+	<!-- HandlerMapping 결정 :@어노테이션이 붙은 컨트롤러 클래스를 하위 컨트롤러로 결정짓흔 객체 -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"></bean>
+	<!-- ViewResolver 결정 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/" p:suffix=".jsp" />
+
+	<!-- 모든 컨트롤러를 일일이 여기서 등록하지 말고, 자동 등록을 이용해보자 -->
+	<context:component-scan base-package="com.study">
+		<!-- 등록된 패키지를 검색하되, 아래의 필터를 이용하여 컨트롤러만 걸러내보자!! -->
+		<context:include-filter type="annotation"
+			expression=" org.springframework.stereotype.Controller" />
+	</context:component-scan>
+</beans>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>SpringMybatisApp0708</display-name>
+	<!--DD는 웹어플리케이션을 가동할때 읽혀진다! -->
+
+	<!-- 특정 서블릿이 관리하는 빈컨텍스트가 아니라, 모든 서블릿들이 접근할 수 있는 공통 빈컨텍스틀 등록하자!! 이렇게 등록된 
+		빈 컨텍스트는 여러 서블릿에서 접근이 가능하여 재사용성이 높아진다 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:com/study/spring/service.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 서블릿에 등록된 스프링 컨텍스트는, 서블릿들간 공유가 가능할까? 서블릿들간 데이터 공유는 허용되지 않기 때문에, 공통적으로 
+		사용할 로직 객체는 서블릿에 등록하지 말고, 서블릿보다 상위 생명력을 갖는 범위로 등록해야 한다 -->
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				WEB-INF/front.xml
+			</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
